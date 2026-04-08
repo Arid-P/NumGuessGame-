@@ -1,6 +1,7 @@
 import logging 
-from config import LOG_PATH
+from pathlib import Path
 
+LOG_PATH = Path('.', 'logs.log')
 occurence = 1
 
 logging.basicConfig(
