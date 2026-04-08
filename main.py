@@ -1,13 +1,7 @@
 
-from score_handler import ScoreFileHandler
+from score_handle import ScoreFileHandler
+from game_logic import Gamemode
 
-def change_difficulty (difficulty: int) -> int:
-    diff_check = input("Do you want to change the difficulty (type 1 for yes) :")
-    
-    if(diff_check == "1") :
-      return input_difficulty()
-    
-    return difficulty
 
 def try_again(scorefile: ScoreFileHandler, scores) -> bool:
     play_again = input("Do want to try again (type 1 for yes) : ")
@@ -20,6 +14,14 @@ def try_again(scorefile: ScoreFileHandler, scores) -> bool:
     
     return True
 
+def change_difficulty (difficulty: int) -> int:
+    diff_check = input("Do you want to change the difficulty (type 1 for yes) :")
+    
+    if(diff_check == "1") :
+      return input_difficulty()
+    
+    return difficulty
+
 def input_difficulty () -> int :
     """
     Prompts the user to input whatever difficulty they want.
@@ -31,18 +33,19 @@ def input_difficulty () -> int :
     """
     
     while True : 
-      diff = input("Enter difficulty (easy, mid, hard, ex) : ")
+        diff = input("Enter difficulty (easy, mid, hard, ex) : ")
       
-      if (diff == "easy") :
-        return 1
-      elif (diff == "mid") :
-        return 2
-      elif (diff == "hard") :
-        return 3
-      elif (diff == "ex") :
-        return 4
-      else :
-      print("Invalid input")
+        if (diff == "easy") :
+            return 1
+        elif (diff == "mid") :
+            return 2
+        elif (diff == "hard") :
+            return 3
+        elif (diff == "ex") :
+            return 4
+        else :
+            print("Invalid input")
+
 
 def starting_instructions() -> None:
     print("INSTRUCTIONS:")
@@ -81,8 +84,10 @@ def starting_instructions() -> None:
     print()
 
 def main():
-    """This control the flow of the program along with the variables: score, difficulty"""
+    """This control the flow of the program along with main game loop."""
     starting_instructions()
+    
+    gamemode = Gamemode()
     scorefile = ScoreFileHandler()
     scorefile.save_start_time()
     
@@ -92,18 +97,18 @@ def main():
         difficulty = input_difficulty()
         
         if (difficulty  == 1) :
-            set_gamemode_easy(scores)
+            gamemode.set_easy(scores)
         elif (difficulty  == 2) :
-            set_gamemode_mid(scores)
+            gamemode.set_mid(scores)
         elif (difficulty  == 3) :
-            set_gamemode_hard(scores)
+            gamemode.set_hard(scores)
         elif (difficulty  == 4) :
-            set_gamemode_extreme(scores)
+            gamemode.set_extreme(scores)
         
         scorefile.save_score_in_file(len(scores), scores[-1])
         
         if try_again(scorefile, scores):
-            difficulty = change_difficulty()
+            difficulty = change_difficulty(difficulty)
     
 
 if __name__ == '__main__':

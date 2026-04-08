@@ -1,10 +1,7 @@
 import datetime
+from pathlib import Path 
 
-from config import SCORE_FILE_PATH
-#global variables
-score: list[int] = []
-difficulty: int = 0 #difficulty like easy, etc with its level number
-
+SCORE_FILE_PATH = Path('.', "score.txt")
 
 class ScoreFileHandler ():
     def save_start_time (self) -> None :
@@ -14,7 +11,7 @@ class ScoreFileHandler ():
       with open(SCORE_FILE_PATH, "a") as scorefile :
         scorefile.write(f"\n\n{formatted_time} \n")
     
-    def save_score_in_file (round_: int, score: int) -> None :
+    def save_score_in_file (self, round_: int, score: int) -> None :
         with open(SCORE_FILE_PATH, "a") as scorefile :
             scorefile.write(f"Round {round_} : {score} \n")
     
@@ -31,6 +28,6 @@ class ScoreFileHandler ():
       
         print(f"Overall accuray : {overallaccuray}\n")
     
-    def end_save_on_file (overallaccuray) -> None :
+    def end_save_on_file (self, overallaccuray) -> None :
         with open(SCORE_FILE_PATH, "a") as scorefile :
             scorefile.write(f"Overall accuray : {overallaccuray} \n") 
